@@ -28,7 +28,7 @@ const App = () => {
   const [location, setLocation] = useState('Danmark');
 
   useEffect(() => {
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${APIkey}`;
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${APIkey}`;
 
     axios.get(url).then((res) => {
       setData(res.data);
@@ -74,13 +74,27 @@ const App = () => {
       break;
   }
 
+  //date ovject
+  const date = new Date();
   return (
     <div className="w-full h-screen bg-gradientBg bg-no-repeat bg-cover bg-center flex flex-col items-center justify-center px-4 lg:px-0">
       <form></form>
-      <div className='w-full max-w-[450px] bg-black/20 min-h-[584px] text-white backdrop-blur-[32px] rounded-[32px] py-12 px-6'>
+      <div className="w-full max-w-[450px] bg-black/20 min-h-[584px] text-white backdrop-blur-[32px] rounded-[32px] py-12 px-6">
         <div>
-          <div>{}</div>
-          <div>Card Body</div>
+          <div className='bg-pink-100/30 flex items-center gap-x-5'>
+            <div className="text-[87px]">{icon}</div>
+
+            <div className="text-[21px] font-semibold">
+              {data.name}, {data.sys.country}
+            </div>
+            <div>{date.getUTCDate()}/{date.getUTCMonth() + 1}/{date.getUTCFullYear()}</div>
+          </div>
+
+          <div className='my-20'>
+            <div>
+              <div>{parseInt(data.main.temp)}</div>
+            </div>
+          </div>
           <div>Card Bottom</div>
         </div>
       </div>
