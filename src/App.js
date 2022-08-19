@@ -81,18 +81,26 @@ const App = () => {
       <form></form>
       <div className="w-full max-w-[450px] bg-black/20 min-h-[584px] text-white backdrop-blur-[32px] rounded-[32px] py-12 px-6">
         <div>
-          <div className='bg-pink-100/30 flex items-center gap-x-5'>
+          <div className="bg-pink-100/30 flex items-center gap-x-5">
             <div className="text-[87px]">{icon}</div>
 
             <div className="text-[21px] font-semibold">
               {data.name}, {data.sys.country}
             </div>
-            <div>{date.getUTCDate()}/{date.getUTCMonth() + 1}/{date.getUTCFullYear()}</div>
+            <div>
+              {date.getUTCDate()}/{date.getUTCMonth() + 1}/
+              {date.getUTCFullYear()}
+            </div>
           </div>
 
-          <div className='my-20'>
-            <div>
-              <div>{parseInt(data.main.temp)}</div>
+          <div className="my-20">
+            <div className='flex justify-center items-center'>
+              <div className="text-[144px] leading-none font-light">
+                {parseInt(data.main.temp)}
+              </div>
+              <div className='text-4xl'>
+                <TbTemperatureCelsius />
+              </div>
             </div>
           </div>
           <div>Card Bottom</div>
