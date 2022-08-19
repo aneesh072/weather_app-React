@@ -25,7 +25,7 @@ const APIkey = '200905de7c747b8357845382b172ca68';
 
 const App = () => {
   const [data, setData] = useState(null);
-  const [location, setLocation] = useState('Danmark');
+  const [location, setLocation] = useState('Tokyo');
 
   useEffect(() => {
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${APIkey}`;
@@ -78,7 +78,12 @@ const App = () => {
   const date = new Date();
   return (
     <div className="w-full h-screen bg-gradientBg bg-no-repeat bg-cover bg-center flex flex-col items-center justify-center px-4 lg:px-0">
-      <form>Form</form>
+      <form className='h-16 bg-black/30 w-full max-w-[450px] rounded-full backdrop-blur-[32px] mb-8'>
+        <div className='h-full relative flex items-center justify-between p-2'>
+          <input className='flex-1 bg-transparent outline-none placeholder:text-white text-white text-[15px] font-light pl-6 h-full' type='text' placeholder='Search by city or country' />
+          <button className='bg-[#1ab8ed] hover:bg-[#15abdd]  w-20 h-12 rounded-full flex justify-center items-center transition'> <IoMdSearch className='text-2xl text-white' /></button>
+        </div>
+      </form>
       <div className="w-full max-w-[450px] bg-black/20 min-h-[584px] text-white backdrop-blur-[32px] rounded-[32px] py-12 px-6">
         <div>
           <div className="flex items-center gap-x-5">
