@@ -91,7 +91,7 @@ const App = () => {
 
   let icon;
 
-  switch ('Haze') {
+  switch (data.weather[0].main) {
     case 'Clouds':
       icon = <IoMdCloudy />;
       break;
