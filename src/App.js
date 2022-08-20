@@ -21,7 +21,7 @@ import {
 import { TbTemperatureCelsius } from 'react-icons/tb';
 import { ImSpinner8 } from 'react-icons/im';
 
-const APIkey = '200905de7c747b8357845382b172ca68';
+const APIkey = 'ADD YOUR OWN API KEY';
 
 const App = () => {
   const [data, setData] = useState(null);
