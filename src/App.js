@@ -75,11 +75,14 @@ const App = () => {
     }, 4000);
     return () => clearTimeout(timer);
   }, [errorMsg]);
+
   //Loader if the data is not fetching or false
   if (!data) {
     return (
-      <div>
-        <ImSpinner8 className="text-5xl animate-spin" />
+      <div className="w-full h-screen bg-gradientBg bg-no-repeat bg-cover bg-center flex flex-col justify-center items-center">
+        <div>
+          <ImSpinner8 className="text-5xl animate-spin text-white" />
+        </div>
       </div>
     );
   }
@@ -88,7 +91,7 @@ const App = () => {
 
   let icon;
 
-  switch (data.weather[0].main) {
+  switch ('Haze') {
     case 'Clouds':
       icon = <IoMdCloudy />;
       break;
@@ -96,16 +99,16 @@ const App = () => {
       icon = <BsCloudHaze2Fill />;
       break;
     case 'Rain':
-      icon = <IoMdRainy />;
+      icon = <IoMdRainy className="text-[#31cafb]" />;
       break;
     case 'Clear':
-      icon = <IoMdSunny />;
+      icon = <IoMdSunny className="text-[#ffde33]" />;
       break;
     case 'Drizzle':
-      icon = <BsCloudDrizzleFill />;
+      icon = <BsCloudDrizzleFill className="text-[#31cafb]" />;
       break;
     case 'Snow':
-      icon = <IoMdSnow />;
+      icon = <IoMdSnow className="text-[#31cafb]" />;
       break;
     case 'Thunderstorm':
       icon = <IoMdThunderstorm />;
