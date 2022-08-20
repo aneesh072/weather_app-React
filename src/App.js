@@ -29,6 +29,7 @@ const App = () => {
   const [inputValue, setInputValue] = useState('');
   const [animate, setAnimate] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleInput = (e) => {
     setInputValue(e.target.value);
@@ -54,19 +55,30 @@ const App = () => {
   useEffect(() => {
     setLoading(true);
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${APIkey}`;
-    setTimeout(() => {
-      axios.get(url).then((res) => {
-        setData(res.data);
+    axios
+      .get(url)
+      .then((res) => {
+        setTimeout(() => {
+          setData(res.data);
+          setLoading(false);
+        }, 1500);
+      })
+      .catch((err) => {
         setLoading(false);
-      }, 1500);
-    });
+        setErrorMsg(err);
+      });
   }, [location]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setErrorMsg('');
+    }, 4000);
+    return () => clearTimeout(timer);
+  }, [errorMsg]);
   //Loader if the data is not fetching or false
   if (!data) {
     return (
       <div>
-        {' '}
         <ImSpinner8 className="text-5xl animate-spin" />
       </div>
     );
@@ -100,10 +112,13 @@ const App = () => {
       break;
   }
 
-  //date ovject
+  //date object
   const date = new Date();
   return (
     <div className="w-full h-screen bg-gradientBg bg-no-repeat bg-cover bg-center flex flex-col items-center justify-center px-4 lg:px-0">
+      {errorMsg && (
+        <div className="w-full max-w-[50vw] lg:max-w-[450px] bg-[#ff208c] text-white top-2 lg:top-10 p-4 capitalize rounded-md my-4 text-center">{`${errorMsg.response.data.message}`}</div>
+      )}
       <form
         className={`${
           !animate ? 'animate-shake' : 'animate-none'
@@ -128,7 +143,7 @@ const App = () => {
       <div className="w-full max-w-[450px] bg-black/20 min-h-[584px] text-white backdrop-blur-[32px] rounded-[32px] py-12 px-6">
         {loading ? (
           <div className="w-full h-full flex justify-center items-center">
-            Loading
+            <ImSpinner8 className="animate-spin text-white text-7xl" />
           </div>
         ) : (
           <div>
