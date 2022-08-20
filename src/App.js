@@ -28,6 +28,7 @@ const App = () => {
   const [location, setLocation] = useState('Tokyo');
   const [inputValue, setInputValue] = useState('');
   const [animate, setAnimate] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleInput = (e) => {
     setInputValue(e.target.value);
@@ -51,10 +52,13 @@ const App = () => {
   };
 
   useEffect(() => {
+    setLoading(true);
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${APIkey}`;
-
-    axios.get(url).then((res) => {
-      setData(res.data);
+    setTimeout(() => {
+      axios.get(url).then((res) => {
+        setData(res.data);
+        setLoading(false);
+      }, 1500);
     });
   }, [location]);
 
@@ -122,80 +126,86 @@ const App = () => {
         </div>
       </form>
       <div className="w-full max-w-[450px] bg-black/20 min-h-[584px] text-white backdrop-blur-[32px] rounded-[32px] py-12 px-6">
-        <div>
-          <div className="flex items-center gap-x-5">
-            <div className="text-[87px]">{icon}</div>
-
-            <div className="text-2xl font-semibold">
-              {data.name}, {data.sys.country}
-              <div className="text-[16px]">
-                {date.getUTCDate()}/{date.getUTCMonth() + 1}/
-                {date.getUTCFullYear()}
-              </div>
-            </div>
+        {loading ? (
+          <div className="w-full h-full flex justify-center items-center">
+            Loading
           </div>
+        ) : (
+          <div>
+            <div className="flex items-center gap-x-5">
+              <div className="text-[87px]">{icon}</div>
 
-          <div className="my-20">
-            <div className="flex justify-center items-center">
-              <div className="text-[144px] leading-none font-light">
-                {parseInt(data.main.temp)}
-              </div>
-              <div className="text-4xl">
-                <TbTemperatureCelsius />
+              <div className="text-2xl font-semibold">
+                {data.name}, {data.sys.country}
+                <div className="text-[16px]">
+                  {date.getUTCDate()}/{date.getUTCMonth() + 1}/
+                  {date.getUTCFullYear()}
+                </div>
               </div>
             </div>
-            <div className="capitalize text-center">
-              {' '}
-              {data.weather[0].description}
-            </div>
-          </div>
 
-          <div className="max-2-[378px] mx-auto flex flex-col gap-y-6">
-            <div className="flex justify-between">
-              <div className="flex items-center gap-x-2">
-                <div className="text-[20px]">
-                  <BsEye />
+            <div className="my-20">
+              <div className="flex justify-center items-center">
+                <div className="text-[144px] leading-none font-light">
+                  {parseInt(data.main.temp)}
                 </div>
-                <div>
-                  {' '}
-                  Visibility{' '}
-                  <span className="ml-2">{data.visibility / 1000} km</span>
+                <div className="text-4xl">
+                  <TbTemperatureCelsius />
                 </div>
               </div>
-              <div className="flex items-center gap-x-2">
-                <div className="text-[20px]">
-                  <BsThermometer />
+              <div className="capitalize text-center">
+                {' '}
+                {data.weather[0].description}
+              </div>
+            </div>
+
+            <div className="max-2-[378px] mx-auto flex flex-col gap-y-6">
+              <div className="flex justify-between">
+                <div className="flex items-center gap-x-2">
+                  <div className="text-[20px]">
+                    <BsEye />
+                  </div>
+                  <div>
+                    {' '}
+                    Visibility{' '}
+                    <span className="ml-2">{data.visibility / 1000} km</span>
+                  </div>
                 </div>
-                <div className="flex">
-                  Feels like
-                  <div className="flex ml-2">
-                    {parseInt(data.main.feels_like)}
-                    <TbTemperatureCelsius />
+                <div className="flex items-center gap-x-2">
+                  <div className="text-[20px]">
+                    <BsThermometer />
+                  </div>
+                  <div className="flex">
+                    Feels like
+                    <div className="flex ml-2">
+                      {parseInt(data.main.feels_like)}
+                      <TbTemperatureCelsius />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-between">
+                <div className="flex items-center gap-x-2">
+                  <div className="text-[20px]">
+                    <BsWater />
+                  </div>
+                  <div>
+                    Humidity
+                    <span className="ml-2">{data.main.humidity} %</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-x-2">
+                  <div className="text-[20px]">
+                    <BsWind />
+                  </div>
+                  <div>
+                    Wind <span className="ml-2">{data.wind.speed} m/s</span>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="flex justify-between">
-              <div className="flex items-center gap-x-2">
-                <div className="text-[20px]">
-                  <BsWater />
-                </div>
-                <div>
-                  Humidity
-                  <span className="ml-2">{data.main.humidity} %</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-x-2">
-                <div className="text-[20px]">
-                  <BsWind />
-                </div>
-                <div>
-                  Wind <span className="ml-2">{data.wind.speed} m/s</span>
-                </div>
-              </div>
-            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
